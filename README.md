@@ -1,71 +1,88 @@
-# Lightware Monitor
+# Lightware Monitor — Free Edition
 
-A high-performance, ultra-lightweight hardware monitoring overlay designed specifically for Windows 10 and 11. Track your system performance in real-time without the overhead or system bloat of traditional monitoring suites.
-
----
-
-## ⚡ The Lightware Advantage
-
-Unlike bulky, browser-based alternatives that consume hundreds of megabytes of system memory, Lightware Monitor is built from the ground up for maximum efficiency. By combining a native C++ core with a highly optimized C# WPF interface, it delivers precise hardware tracking with an invisible resource footprint.
-
-* **Ultra-Low Memory:** Idiotic background apps hog your RAM; Lightware Monitor uses a tiny fraction of the memory of competitive tools.
-* **Zero Dependencies:** Completely self-contained single-file build. No `.NET` installers, frameworks, or additional runtimes required.
-* **Safe & Local:** Zero cloud telemetry. Your hardware data never leaves your machine.
+> **Lightware Monitor** is a lightweight, always-on-top hardware monitoring overlay for Windows gamers.
+> This is the **free** version — includes all core monitoring features and 4 built-in themes.
 
 ---
 
-## 🚀 Key Features
+## What's Included (Free)
 
-* **Always-on-Top Overlay:** Keep track of metrics while playing or benchmarking.
-* **Click-Through Mode:** The overlay can stay visible on screen while completely ignoring mouse clicks so it never interferes with your gameplay.
-* **Fullscreen Compatibility:** Built-in hooks designed to seamlessly render over fullscreen games.
-* **Sleek Customization:** Features multiple built-in color themes to match your desktop or hardware RGB setups.
-* **Dynamic Sizing:** Switch between Full Mode (300×150) for intensive benchmarking or a minimalist Mini Mode (340×45) to reduce screen clutter.
-
----
-
-## 🖥️ System Requirements
-
-* **Operating System:** Windows 10 or Windows 11 (64-bit)
-* **Privileges:** Standard user access (Administrative access may be required for specific low-level hardware registers)
-* **Installation:** None. Just download and execute the single-file build.
+- **Real-time telemetry** — CPU usage (%), GPU temperature (°C), and FPS sampled every ~100ms
+- **Always-on-top overlay** — stays visible over fullscreen games and applications
+- **Click-through mode** — overlay ignores mouse input by default so it never steals focus from your game
+- **4 built-in themes** — Cyberpunk Neon, Stealth White, Crimson Fury, Aurora Green
+- **Mini mode** — compact bar; toggle with double-click or tray menu
+- **Resizable normal mode** — drag any corner to scale the overlay; text auto-fits
+- **Tray icon** — right-click for themes, mode switching, reset, and auto-start options
+- **Persisted settings** — position, size, theme, and mode survive restarts
+- **No dependencies** — self-contained .NET 9 build, no runtime installation required
 
 ---
 
-## 📥 Downloads & Premium Upgrade
+## Premium — $4.99
 
-Lightware Monitor operates on a Freemium model. The core real-time tracking features are completely free to download and use forever.
+Unlock **Custom Themes** — create and save unlimited custom color themes:
 
-### [ 👉 Download Free Version ](https://github.com)
+- Adjustable RGB values for every metric (CPU, GPU, FPS, game name)
+- Save unlimited custom presets
+- One-click theme switching via tray menu
 
-### 💎 Unlock Premium Features
-Upgrade to the Premium version to unlock advanced customization, including **Mini Mode (340×45)**, **all built-in color themes**, and **custom resolution scaling**.
-
-### [ 💳 Buy Premium License Key ($4.99) ](YOUR_PADDLE_CHECKOUT_URL_GOES_HERE)
-
-*(Once purchased, enter your unique license key in the application settings menu to instantly unlock all premium configurations.)*
+**[Get Premium →]()**
 
 ---
 
-## 📄 License
+## Quick Start
 
-All rights reserved. The compiled binary executables, assets, and documentation provided in this repository are proprietary software owned by **Universal Factor Apps**. 
+1. Extract `LightwareMonitor-Portable-v1.0.0.zip` anywhere
+2. Run `LightwareMonitor.UI.exe`
+3. The overlay appears at the top-left of your primary monitor
+4. Hold **Left Ctrl + Left Shift** to unlock the overlay (enables dragging, resizing, close button)
+5. Right-click the **tray icon** to switch themes, toggle mini mode, or reset settings
 
-You are granted permission to download and use the free tier of this software for personal, non-commercial use. Unauthorized modification, redistribution, or reverse-engineering of the application binaries is strictly prohibited.
+### Keyboard Shortcuts
+
+| Action | How |
+|---|---|
+| Unlock overlay | Hold `Left Ctrl` + `Left Shift` |
+| Toggle mini mode | Double-click the overlay (when unlocked) |
 
 ---
 
-## 🛡️ Privacy Policy
+## System Requirements
 
-**Universal Factor Apps** ("we," "our," or "us") is committed to protecting user privacy. This privacy policy applies strictly to the **Lightware Monitor** desktop application.
+| | |
+|---|---|
+| **OS** | Windows 10 (1809+) or Windows 11 |
+| **Architecture** | x64 |
+| **Dependencies** | None (self-contained) |
+| **Admin rights** | Not required |
 
-### 1. Data Collection and Usage
-- **Local Operation Only:** Lightware Monitor functions entirely as a local hardware tracking utility. 
-- **System Metrics:** The application queries real-time system performance statistics (such as CPU usage, GPU utilization, and Framerates per Second) solely to display them on your screen overlay.
-- **No Data Transmission:** We do not collect, store, or transmit any personal data, hardware identifiers, system configurations, or process monitoring information to external servers. All performance data remains 100% volatile and stays on your local machine.
+---
 
-### 2. Third-Party Services
-- **Licensing and Payments:** We utilize **Paddle** as our Merchant of Record and **Keygen.sh** for software license authentication. When you purchase the Premium version, your email and transaction data are handled strictly according to Paddle's and Keygen's secure privacy policies to manage your license key activation.
+## Screenshots
 
-### 3. Contact Us
-For any privacy inquiries regarding our utilities, contact us at **universalfactor.apps@outlook.com**.
+<video autoplay loop muted playsinline width="800">
+  <source src="demo.webm" type="video/webm">
+  <source src="demo.mp4" type="video/mp4">
+</video>
+
+_The Lightware Monitor overlay running over a game — real-time CPU, GPU, and FPS at a glance._
+
+---
+
+## Privacy
+
+Lightware Monitor **does not collect any data**. It runs entirely locally. No telemetry, no analytics, no network requests.
+
+---
+
+## License
+
+This free edition is provided under the [MIT License](LICENSE).
+The premium features are licensed separately — see [PREMIUM.md](PREMIUM.md).
+
+---
+
+## Support
+
+For issues or questions, open an issue on this repository.
