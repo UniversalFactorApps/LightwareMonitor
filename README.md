@@ -75,8 +75,9 @@ Lightware Monitor **does not collect any data**. It runs entirely locally. No te
 
 ## License
 
-This free edition is provided under the [MIT License](LICENSE).
-The premium features are licensed separately — see [PREMIUM.md](PREMIUM.md).
+This is a proprietary, closed-source application. See [LICENSE](LICENSE) for the full
+end user license agreement (EULA). The premium features are licensed separately
+under a commercial license — see [PREMIUM.md](PREMIUM.md).
 
 ---
 
