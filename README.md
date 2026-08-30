@@ -61,10 +61,7 @@ Unlock **Custom Themes** — create and save unlimited custom color themes:
 
 ## Screenshots
 
-<video autoplay loop muted playsinline width="800">
-  <source src="demo.webm" type="video/webm">
-  <source src="demo.mp4" type="video/mp4">
-</video>
+![Lightware Monitor demo](demo.gif)
 
 _The Lightware Monitor overlay running over a game — real-time CPU, GPU, and FPS at a glance._
 
