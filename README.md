@@ -69,12 +69,17 @@ _The Lightware Monitor overlay running over a game — real-time CPU, GPU, and F
 
 ### Built-in themes
 
-| Theme | CPU | GPU | FPS |
-|---|---|---|---|
-| <img src="theme-cyberpunk-neon.png" width="220" /> | | | |
-| <img src="theme-stealth-white.png" width="220" /> | | | |
-| <img src="theme-crimson-fury.png" width="220" /> | | | |
-| <img src="theme-aurora-green.png" width="220" /> | | | |
+**Cyberpunk Neon**
+![Cyberpunk Neon](theme-cyberpunk-neon.png)
+
+**Stealth White**
+![Stealth White](theme-stealth-white.png)
+
+**Crimson Fury**
+![Crimson Fury](theme-crimson-fury.png)
+
+**Aurora Green**
+![Aurora Green](theme-aurora-green.png)
 
 ---
 
