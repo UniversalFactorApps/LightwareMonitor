@@ -61,9 +61,20 @@ Unlock **Custom Themes** — create and save unlimited custom color themes:
 
 ## Screenshots
 
+### Demo — In-game overlay
+
 ![Lightware Monitor demo](demo.gif)
 
 _The Lightware Monitor overlay running over a game — real-time CPU, GPU, and FPS at a glance._
+
+### Built-in themes
+
+| Theme | CPU | GPU | FPS |
+|---|---|---|---|
+| <img src="theme-cyberpunk-neon.png" width="220" /> | | | |
+| <img src="theme-stealth-white.png" width="220" /> | | | |
+| <img src="theme-crimson-fury.png" width="220" /> | | | |
+| <img src="theme-aurora-green.png" width="220" /> | | | |
 
 ---
 
