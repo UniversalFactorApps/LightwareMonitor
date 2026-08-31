@@ -1,11 +1,10 @@
-# Lightware Monitor — Free Edition
+# Lightware Monitor
 
 > **Lightware Monitor** is a lightweight, always-on-top hardware monitoring overlay for Windows gamers.
-> This is the **free** version — includes all core monitoring features and 4 built-in themes.
 
 ---
 
-## What's Included (Free)
+## Features
 
 - **Real-time telemetry** — CPU usage (%), GPU temperature (°C), and FPS sampled every ~100ms
 - **Always-on-top overlay** — stays visible over fullscreen games and applications
@@ -16,6 +15,23 @@
 - **Tray icon** — right-click for themes, mode switching, reset, and auto-start options
 - **Persisted settings** — position, size, theme, and mode survive restarts
 - **No dependencies** — self-contained .NET 9 build, no runtime installation required
+
+---
+
+## Screenshots
+
+### Demo — In-game overlay
+
+![Lightware Monitor demo](demo.gif)
+
+_The Lightware Monitor overlay running over a game — real-time CPU, GPU, and FPS at a glance._
+
+### Built-in themes
+
+![Cyberpunk Neon](theme-cyberpunk-neon.png)
+![Stealth White](theme-stealth-white.png)
+![Crimson Fury](theme-crimson-fury.png)
+![Aurora Green](theme-aurora-green.png)
 
 ---
 
@@ -56,23 +72,6 @@ Unlock **Custom Themes** — create and save unlimited custom color themes:
 | **Architecture** | x64 |
 | **Dependencies** | None (self-contained) |
 | **Admin rights** | Not required |
-
----
-
-## Screenshots
-
-### Demo — In-game overlay
-
-![Lightware Monitor demo](demo.gif)
-
-_The Lightware Monitor overlay running over a game — real-time CPU, GPU, and FPS at a glance._
-
-### Built-in themes
-
-![Cyberpunk Neon](theme-cyberpunk-neon.png)
-![Stealth White](theme-stealth-white.png)
-![Crimson Fury](theme-crimson-fury.png)
-![Aurora Green](theme-aurora-green.png)
 
 ---
 
