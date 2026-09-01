@@ -1,0 +1,56 @@
+name: Release
+
+# Trigger only when a version tag is pushed (e.g. v1.0.0)
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    name: Build & Release
+    runs-on: windows-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 9
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+
+      # Build native C++ DLL
+      - name: Build native telemetry DLL (Release x64)
+        run: |
+          MSBuild.exe LightwareMonitor.Core/LightwareMonitor.Core.vcxproj `
+            /p:Configuration=Release /p:Platform=x64 /t:Build /v:m
+
+      # Publish .NET app
+      - name: Publish single-file executable
+        run: |
+          dotnet publish LightwareMonitor.UI/LightwareMonitor.UI.csproj `
+            -c Release -r win-x64 `
+            -p:PublishSingleFile=true `
+            -p:IncludeNativeLibrariesForSelfExtract=true `
+            -p:PublishReadyToRun=true `
+            -o publish
+
+      # Create GitHub release (no source code archives)
+      # ncipollo/release-action uploads only the specified files and avoids
+      # GitHub's default Source code (zip)/(tar.gz) auto-archives that get
+      # attached when releases are created via the web UI or gh CLI without
+      # explicit artifacts.
+      - name: Create GitHub Release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: |
+            publish/LightwareMonitor.UI.exe
+            publish/LightwareMonitor.Core.dll
+            publish/settings.json
+          draft: false
+          prerelease: false
+          makeLatest: true
+          allowNamedAssets: true
+          token: ${{ secrets.GITHUB_TOKEN }}
