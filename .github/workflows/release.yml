@@ -16,6 +16,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Fetch README from main
+        # Keep README in sync with the latest main branch so releases
+        # always carry the current version of the docs.
+        run: git fetch origin main:refs/remotes/origin/main --depth=1 && git checkout origin/main -- README.md
+
       - name: Setup .NET 9
         uses: actions/setup-dotnet@v4
         with:
@@ -24,7 +29,7 @@ jobs:
       # Build native C++ DLL
       - name: Build native telemetry DLL (Release x64)
         run: |
-          MSBuild.exe LightwareMonitor.Core/LightwareMonitor.Core.vcxproj `
+          MSBuild.exe LightwareMonitor.Core/LighlwareMonitor.Core.vcxproj `
             /p:Configuration=Release /p:Platform=x64 /t:Build /v:m
 
       # Publish .NET app
@@ -49,6 +54,7 @@ jobs:
             publish/LightwareMonitor.UI.exe
             publish/LightwareMonitor.Core.dll
             publish/settings.json
+            README.md
           draft: false
           prerelease: false
           makeLatest: true
