@@ -17,20 +17,22 @@ jobs:
     timeout-minutes: 30
 
     steps:
-      - name: Checkout code
+      # Clone the private source repo — this public repo NEVER holds source code.
+      # Uses the tag being released so the build matches the tag exactly.
+      - name: Checkout source from LightwareMonitorSource
         uses: actions/checkout@v4
+        with:
+          repository: UniversalFactorApps/LightwareMonitorSource
+          ref: ${{ github.ref_name }}
+          fetch-depth: 1
+          token: ${{ secrets.SOURCE_REPO_TOKEN }}
 
-      - name: Fetch README from main
-        # Keep README in sync with the latest main branch so releases
-        # always carry the current version of the docs.
-        run: git fetch origin main:refs/remotes/origin/main --depth=1 && git checkout origin/main -- README.md
-
+      # Setup MSVC build tools (cl.exe + MSBuild) for the C++ vcxproj.
       - name: Setup .NET 9
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '9.0.x'
 
-      # Setup MSVC build tools (cl.exe + MSBuild) for the C++ vcxproj.
       - name: Setup MSVC
         uses: ilammy/msvc-dev-cmd@v1
 
@@ -55,11 +57,21 @@ jobs:
             -p:PublishReadyToRun=true `
             -o publish
 
+      # Bring in the public-facing docs from this repo (main branch) so the
+      # release always carries the latest user-facing README and assets.
+      - name: Fetch public README and assets
+        run: git fetch https://github.com/UniversalFactorApps/LightwareMonitor.git main:public-main --depth=1
+
       # Package everything into a single zip for easy one-file download.
       - name: Package release
         shell: pwsh
         run: |
-          Compress-Archive -Path "publish/LightwareMonitor.UI.exe", "README.md" `
+          $publicFiles = @("publish/LightwareMonitor.UI.exe")
+          if (Test-Path "public-main/README.md") { $publicFiles += "public-main/README.md" }
+          if (Test-Path "public-main/CHANGELOG.md") { $publicFiles += "public-main/CHANGELOG.md" }
+          if (Test-Path "public-main/PREMIUM.md") { $publicFiles += "public-main/PREMIUM.md" }
+          if (Test-Path "public-main/demo.gif") { $publicFiles += "public-main/demo.gif" }
+          Compress-Archive -Path $publicFiles `
             -DestinationPath "LightwareMonitor-Portable-${{ github.ref_name }}.zip" `
             -Force
 
