@@ -1,0 +1,75 @@
+# .NET
+bin/
+obj/
+[Bb]uild/
+[Ll]og/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.rsuser
+*.rsuser
+
+# Visual Studio
+.vs/
+*.suo
+*.user
+*.rsuser
+*.userosscache
+*.sln.docstates
+.vs/
+
+# Rider
+.idea/
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+
+# NuGet
+*.nupkg
+*.snupkg
+**/[Pp]ackages/*
+
+# Test Results
+[Tt]est[Rr]esult*/
+*.trx
+TestResults/
+
+# ReSharper
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
+# Visual Studio Code
+.vscode/
+
+# OS generated
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+
+# Large build artifacts
+publish/
+screenshots/
+ThemeRenderer/
+capture_themes.ps1
+capture_themes.py
+gif_check.png
+make_gif.py
+preview.py
+.claude/
+
+# Native DLL staging folder (copied from LightwareMonitor.Core then embedded)
+LightwareMonitor.UI/native/
