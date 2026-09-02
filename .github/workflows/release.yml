@@ -40,9 +40,9 @@ jobs:
           MSBuild.exe LightwareMonitor.Core/LightwareMonitor.Core.vcxproj `
             /p:Configuration=Release /p:Platform=x64 /t:Build /v:m
 
-      # Run all tests before releasing.
+      # Build and run all tests before releasing.
       - name: Run tests
-        run: dotnet test LightwareMonitor.Tests/LightwareMonitor.Tests.csproj --no-build
+        run: dotnet test LightwareMonitor.Tests/LightwareMonitor.Tests.csproj
 
       # Publish .NET app — CopyNativeCoreDll target picks up the native DLL
       # from LightwareMonitor.Core\x64\Release\ and embeds it into the exe.
