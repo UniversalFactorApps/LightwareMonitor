@@ -55,6 +55,14 @@ jobs:
             -p:PublishReadyToRun=true `
             -o publish
 
+      # Package everything into a single zip for easy one-file download.
+      - name: Package release
+        shell: pwsh
+        run: |
+          Compress-Archive -Path "publish/LightwareMonitor.UI.exe", "README.md" `
+            -DestinationPath "LightwareMonitor-Portable-${{ github.ref_name }}.zip" `
+            -Force
+
       # Create GitHub release (no source code archives).
       # ncipollo/release-action uploads only the specified files and avoids
       # GitHub's default Source code (zip)/(tar.gz) auto-archives.
@@ -62,8 +70,7 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           artifacts: |
-            publish/LightwareMonitor.UI.exe
-            README.md
+            LightwareMonitor-Portable-${{ github.ref_name }}.zip
           draft: false
           prerelease: false
           makeLatest: true
