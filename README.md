@@ -58,11 +58,15 @@ _Lightware Monitor running over a game — real-time CPU, GPU temperature, FPS, 
 
 ## Installation
 
-### Option 1: Inst
-```powershell
+### Option 1: Installer (Recommended)
+Download the latest `LightwareMonitor-Setup-x.x.x.exe` from the [Releases](https://github.com/UniversalFactorApps/LightwareMonitor/releases) page and run it.
+
+### Option 2: Portable
+Download `LightwareMonitor-Portable-x.x.x.zip`, extract anywhere, and run `LightwareMonitor.UI.exe`.
+
+### Option 3: winget
 winget install UniversalFactorApps.LightwareMonitor
 
----
 
 Quick Start
 
@@ -75,6 +79,16 @@ Quick Start
 ---
 
 Keyboard Shortcuts
+
+┌───────────────────────────┬──────────────────────────────────────────┐
+│          Action           │                   How                    │
+├───────────────────────────┼──────────────────────────────────────────┤
+│ Unlock overlay            │ Hold Left Ctrl + Left Shift              │
+├───────────────────────────┼──────────────────────────────────────────┤
+│ Toggle mini mode          │ Double-click the overlay (when unlocked) │
+├───────────────────────────┼──────────────────────────────────────────┤
+│ Touch-and-hold (handheld) │ Press and hold overlay for 1.5s          │
+└───────────────────────────┴──────────────────────────────────────────┘
 
 ---
 
@@ -94,11 +108,16 @@ System Requirements
 
 ---
 
+Privacy
+
+Lightware Monitor does not collect any data. telemetry, no analytics, no network requests — except for license activation and verification via Keygen.sh (https://keygen.sh) when a premium license key is entered.
+
 ---
 
 License
 
-This is a proprietary, closed-source application. See LICENSE for the full end user license agreement (EULA). The premium features are licensed separately under a commercial license — see PREMIUM.md.
+This is a proprietary, closed-source application. See LICENSE for the full end user license agreement (EULA). The
+premium features are licensed separately und PREMIUM.md.
 
 ---
 
