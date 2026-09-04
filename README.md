@@ -1,5 +1,3 @@
-wait# Lightware Monitor
-
 # Lightware Monitor
 
 A lightweight, always-on-top hardware monitoring overlay for Windows gamers.
