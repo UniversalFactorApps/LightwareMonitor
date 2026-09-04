@@ -25,21 +25,26 @@ Displays real-time **CPU usage**, **GPU temperature**, and **FPS** directly on y
 | **4 font sizes** | Small (16px), Medium (22px), Large (28px), Extra Large (34px) |
 | **Multi-monitor** | Choose which monitor the overlay appears on |
 | **Persisted settings** | Position, size, theme, and mode survive restarts |
-| **Launch on star
+| **Launch on startup** | Option to start with Windows from the tray menu |
+| **Self-contained** | .NET 9 single-file build — no runtime installation required |
 
 ---
 
 ### Premium (license key required)
 
-Unlock premium features at **[lightwaremonitor.com/premium](https://lightwaremonitor.com)**.
+Unlock premium features for **$4.99** — a one-time purchase for the current major version.
 
-> **License key activation** — Enter your key from the tray menu to unlock premium. The activation is tied to your machine and validated online against Keygen.sh with a 7-day offline grace period.
+> **License key activation** — Enter your key from the tray menu to unlock premium. The activation is tied to your machine and validated online against Keygen.sh.
 
 | Feature | Description |
 |---|---|
 | **4 additional color themes** | Dark, Cold, Neon, Pastel |
 
 ---
+
+## Screenshots
+
+### In-game overlay
 
 ![Lightware Monitor demo](demo.gif)
 
@@ -63,62 +68,55 @@ Download the latest `LightwareMonitor-Setup-x.x.x.exe` from the [Releases](https
 Download `LightwareMonitor-Portable-x.x.x.zip`, extract anywhere, and run `LightwareMonitor.UI.exe`.
 
 ### Option 3: winget
+```powershell
 winget install UniversalFactorApps.LightwareMonitor
+```
 
+---
 
-Quick Start
+## Quick Start
 
-1. Launch Lightware Monitor
+1. Launch **Lightware Monitor**
 2. The overlay appears at the top-left of your primary monitor
-3. Play your game — the overlay stays on top and shows CPU, GPU temp, and FPS
-4. Hold Left Ctrl + Left Shift simultaneously to unlock the overlay (enables dragging, resizing, and the close button)
-5. Right-click the tray icon to switch themes, toggle mini mode, manage your license, or reset settings
+3. **Play your game** — the overlay stays on top and shows CPU, GPU temp, and FPS
+4. Hold **Left Ctrl + Left Shift** simultaneously to unlock the overlay (enables dragging, resizing, and the close button)
+5. Right-click the **tray icon** to switch themes, toggle mini mode, manage your license, or reset settings
 
 ---
 
-Keyboard Shortcuts
+## Keyboard Shortcuts
 
-┌───────────────────────────┬──────────────────────────────────────────┐
-│          Action           │                   How                    │
-├───────────────────────────┼──────────────────────────────────────────┤
-│ Unlock overlay            │ Hold Left Ctrl + Left Shift              │
-├───────────────────────────┼──────────────────────────────────────────┤
-│ Toggle mini mode          │ Double-click the overlay (when unlocked) │
-├───────────────────────────┼──────────────────────────────────────────┤
-│ Touch-and-hold (handheld) │ Press and hold overlay for 1.5s          │
-└───────────────────────────┴──────────────────────────────────────────┘
+| Action | How |
+|---|---|
+| Unlock overlay | Hold `Left Ctrl` + `Left Shift` |
+| Toggle mini mode | Double-click the overlay (when unlocked) |
+| Touch-and-hold (handheld) | Press and hold overlay for 1.5s |
 
 ---
 
-System Requirements
+## System Requirements
 
-┌──────────────┬──────────────────────────────────┐
-│              │                                  │
-├──────────────┼──────────────────────────────────┤
-│ OS           │ Windows 10 (1809+) or Windows 11 │
-├──────────────┼──────────────────────────────────┤
-│ Architecture │ x64                              │
-├──────────────┼──────────────────────────────────┤
-│ Dependencies │ None (self-contained)            │
-├──────────────┼──────────────────────────────────┤
-│ Admin rights │ Not required                     │
-└──────────────┴──────────────────────────────────┘
+| | |
+|---|---|
+| **OS** | Windows 10 (1809+) or Windows 11 |
+| **Architecture** | x64 |
+| **Dependencies** | None (self-contained) |
+| **Admin rights** | Not required |
 
 ---
 
-Privacy
+## Privacy
 
-Lightware Monitor does not collect any data. telemetry, no analytics, no network requests — except for license activation and verification via Keygen.sh (https://keygen.sh) when a premium license key is entered.
-
----
-
-License
-
-This is a proprietary, closed-source application. See LICENSE for the full end user license agreement (EULA). The
-premium features are licensed separately und PREMIUM.md.
+Lightware Monitor **does not collect any data**. It runs entirely locally. No telemetry, no analytics, no network requests — except for license activation and verification via [Keygen.sh](https://keygen.sh) when a premium license key is entered.
 
 ---
 
-Support
+## License
+
+This is a proprietary, closed-source application. See [LICENSE](LICENSE) for the full end user license agreement (EULA). The premium features are licensed separately under a commercial license — see [PREMIUM.md](PREMIUM.md).
+
+---
+
+## Support
 
 For issues or questions, open an issue on this repository.
