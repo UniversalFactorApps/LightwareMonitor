@@ -17,18 +17,15 @@ jobs:
     timeout-minutes: 30
 
     steps:
-      # Clone the private source repo. Uses git's http.extraHeader instead of
-      # embedding the token in the URL — avoids PowerShell URL parser issues.
+      # Clone the private source repo. Embeds the PAT in the URL — reliable on
+      # Windows without needing git extraheader or url.rewrite tricks.
       - name: Checkout source from LightwareMonitorSource
         shell: pwsh
         run: |
           $token = "${{ secrets.SOURCE_REPO_TOKEN }}"
-          git config --global http.https://github.com/.extraheader "AUTHORIZATION: bearer $token"
-          git config --global url."https://github.com/".insteadOf "https://github.com/"
-          git clone --depth 1 --branch "${{ github.ref_name }}" --single-branch `
-            "https://github.com/UniversalFactorApps/LightwareMonitorSource.git" "${{ github.workspace }}"
+          $url = "https://x-access-token:${token}@github.com/UniversalFactorApps/LightwareMonitorSource.git"
+          git clone --depth 1 --branch "${{ github.ref_name }}" --single-branch $url "${{ github.workspace }}"
 
-      # Setup MSVC build tools (cl.exe + MSBuild) for the C++ vcxproj.
       - name: Setup .NET 9
         uses: actions/setup-dotnet@v4
         with:
@@ -37,18 +34,14 @@ jobs:
       - name: Setup MSVC
         uses: ilammy/msvc-dev-cmd@v1
 
-      # Build native C++ DLL — outputs to LightwareMonitor.Core\x64\Release\
       - name: Build native telemetry DLL (Release x64)
         run: |
           MSBuild.exe LightwareMonitor.Core/LightwareMonitor.Core.vcxproj `
             /p:Configuration=Release /p:Platform=x64 /t:Build /v:m
 
-      # Build and run all tests. Exits non-zero (fails the build) if any test fails.
       - name: Run tests
         run: dotnet test LightwareMonitor.Tests/LightwareMonitor.Tests.csproj --verbosity normal
 
-      # Publish .NET app — CopyNativeCoreDll target picks up the native DLL
-      # from LightwareMonitor.Core\x64\Release\ and embeds it into the exe.
       - name: Publish single-file executable
         run: |
           dotnet publish LightwareMonitor.UI/LightwareMonitor.UI.csproj `
@@ -58,12 +51,9 @@ jobs:
             -p:PublishReadyToRun=true `
             -o publish
 
-      # Bring in the public-facing docs from this repo (main branch) so the
-      # release always carries the latest user-facing README and assets.
       - name: Fetch public README and assets
         run: git fetch https://github.com/UniversalFactorApps/LightwareMonitor.git main:public-main --depth=1
 
-      # Package everything into a single zip for easy one-file download.
       - name: Package release
         shell: pwsh
         run: |
@@ -76,9 +66,6 @@ jobs:
             -DestinationPath "LightwareMonitor-Portable-${{ github.ref_name }}.zip" `
             -Force
 
-      # Create GitHub release (no source code archives).
-      # ncipollo/release-action uploads only the specified files and avoids
-      # GitHub's default Source code (zip)/(tar.gz) auto-archives.
       - name: Create GitHub Release
         uses: ncipollo/release-action@v1
         with:
