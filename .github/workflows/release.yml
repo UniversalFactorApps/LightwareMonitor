@@ -17,16 +17,16 @@ jobs:
     timeout-minutes: 30
 
     steps:
-      # Clone the private source repo using the token embedded in the URL.
-      # Using a manual git clone (instead of actions/checkout) with the PAT
-      # in the URL is the most reliable cross-repo auth pattern — it avoids
-      # the protocol v2 + http.extraheader incompatibility on Windows runners.
+      # Clone the private source repo. Uses git's http.extraHeader instead of
+      # embedding the token in the URL — avoids PowerShell URL parser issues.
       - name: Checkout source from LightwareMonitorSource
         shell: pwsh
         run: |
           $token = "${{ secrets.SOURCE_REPO_TOKEN }}"
-          $url = "https://x-access-token:$token@github.com/UniversalFactorApps/LightwareMonitorSource.git"
-          git clone --depth 1 --branch "${{ github.ref_name }}" --single-branch $url "${{ github.workspace }}"
+          git config --global http.https://github.com/.extraheader "AUTHORIZATION: bearer $token"
+          git config --global url."https://github.com/".insteadOf "https://github.com/"
+          git clone --depth 1 --branch "${{ github.ref_name }}" --single-branch `
+            "https://github.com/UniversalFactorApps/LightwareMonitorSource.git" "${{ github.workspace }}"
 
       # Setup MSVC build tools (cl.exe + MSBuild) for the C++ vcxproj.
       - name: Setup .NET 9
