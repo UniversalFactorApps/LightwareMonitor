@@ -20,11 +20,11 @@ jobs:
       # Clone the private source repo. Embeds the PAT in the URL — reliable on
       # Windows without needing git extraheader or url.rewrite tricks.
       - name: Checkout source from LightwareMonitorSource
-        shell: pwsh
+        shell: bash
         run: |
-          $token = "${{ secrets.SOURCE_REPO_TOKEN }}"
-          $url = "https://x-access-token:${token}@github.com/UniversalFactorApps/LightwareMonitorSource.git"
-          git clone --depth 1 --branch "${{ github.ref_name }}" --single-branch $url "${{ github.workspace }}"
+          token="$SOURCE_REPO_TOKEN"
+          url="https://x-access-token:${token}@github.com/UniversalFactorApps/LightwareMonitorSource.git"
+          git clone --depth 1 --branch "$GITHUB_REF_NAME" --single-branch "$url" "$GITHUB_WORKSPACE"
 
       - name: Setup .NET 9
         uses: actions/setup-dotnet@v4
