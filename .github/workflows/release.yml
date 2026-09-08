@@ -21,9 +21,15 @@ jobs:
       # Windows without needing git extraheader or url.rewrite tricks.
       - name: Checkout source from LightwareMonitorSource
         shell: bash
+        env:
+          SOURCE_REPO_TOKEN: ${{ secrets.SOURCE_REPO_TOKEN }} # 👈 THIS MAPS THE SECRET TO THE BASH SCRIPT
         run: |
           token="$SOURCE_REPO_TOKEN"
           url="https://x-access-token:${token}@github.com/UniversalFactorApps/LightwareMonitorSource.git"
+
+          # Force empty the directory to prevent git conflicts on the runner machine
+          rm -rf *
+
           git clone --depth 1 --branch "$GITHUB_REF_NAME" --single-branch "$url" "$GITHUB_WORKSPACE"
 
       - name: Setup .NET 9
