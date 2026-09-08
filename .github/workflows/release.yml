@@ -63,14 +63,14 @@ jobs:
           if (Test-Path "public-main/PREMIUM.md") { $publicFiles += "public-main/PREMIUM.md" }
           if (Test-Path "public-main/demo.gif") { $publicFiles += "public-main/demo.gif" }
           Compress-Archive -Path $publicFiles `
-            -DestinationPath "LightwareMonitor-Portable-${{ github.ref_name }}.zip" `
+            -DestinationPath "LightwareMonitor-${{ github.ref_name }}.zip" `
             -Force
 
       - name: Create GitHub Release
         uses: ncipollo/release-action@v1
         with:
           artifacts: |
-            LightwareMonitor-Portable-${{ github.ref_name }}.zip
+            LightwareMonitor-${{ github.ref_name }}.zip
           draft: false
           prerelease: false
           makeLatest: true
