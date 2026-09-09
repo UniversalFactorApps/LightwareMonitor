@@ -77,7 +77,8 @@ jobs:
         with:
           artifacts: |
             LightwareMonitor-${{ github.ref_name }}.zip
+          allowUpdates: true
           draft: false
-          prerelease: false
-          makeLatest: true
+          prerelease: ${{ contains(github.ref_name, '-') }}
+          makeLatest: ${{ !contains(github.ref_name, '-') }}
           token: ${{ secrets.GITHUB_TOKEN }}
