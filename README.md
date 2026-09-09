@@ -34,7 +34,7 @@ Displays real-time **CPU usage**, **GPU temperature**, and **FPS** directly on y
 
 Unlock premium features for **$4.99** — a one-time purchase for the current major version.
 
-> **License key activation** — Enter your key from the tray menu to unlock premium. The activation is tied to your machine and validated online against Keygen.sh.
+> **License key activation** — Enter your key from the tray menu to unlock premium. The activation is tied to your machine and validated online against Keygen.sh with a 7-day offline grace period.
 
 | Feature | Description |
 |---|---|
@@ -61,11 +61,8 @@ _Lightware Monitor running over a game — real-time CPU, GPU temperature, FPS, 
 
 ## Installation
 
-### Option 1: Installer (Recommended)
-Download the latest `LightwareMonitor-Setup-x.x.x.exe` from the [Releases](https://github.com/UniversalFactorApps/LightwareMonitor/releases) page and run it.
-
-### Option 2: Portable
-Download `LightwareMonitor-Portable-x.x.x.zip`, extract anywhere, and run `LightwareMonitor.UI.exe`.
+### Option 2: Portable (Recommended)
+[Download LightwareMonitor-Portable-x.x.x.zip](https://github.com/UniversalFactorApps/LightwareMonitor/releases/latest) and extract anywhere, then run `LightwareMonitor.UI.exe`.
 
 ### Option 3: winget
 ```powershell
@@ -108,6 +105,21 @@ winget install UniversalFactorApps.LightwareMonitor
 ## Privacy
 
 Lightware Monitor **does not collect any data**. It runs entirely locally. No telemetry, no analytics, no network requests — except for license activation and verification via [Keygen.sh](https://keygen.sh) when a premium license key is entered.
+
+---
+
+## Terms of Service & Refund Policy
+
+### 1. License Purchase Terms
+By purchasing a Premium License Key for **Lightware Monitor**, you are granted a non-exclusive, non-transferable, lifetime commercial license to activate and unlock premium configuration themes on up to three (3) personal devices owned concurrently by you.
+
+### 2. Refund Policy
+Because Lightware Monitor provides a 100% functional, restriction-free Free Tier allowing you to completely test game frame-rates, low-latency compatibility, and system metrics before spending any money, **all sales of the Premium Version are final.** 
+
+- **Exceptions:** We want you to be completely satisfied. If your unique premium license key fails to authenticate against Keygen.sh due to a technical server defect, or if the software experiences an unresolvable hardware compatibility crash on your system within **14 days of purchase**, contact us at **universalfactor.apps@outlook.com** with your Paddle checkout order number. We will gladly troubleshoot the issue or issue a full refund.
+
+### 3. Customer Support
+For billing issues, transaction assistance, or technical license keys inquiries, please contact our support desk directly at **universalfactor.apps@outlook.com**. We aim to respond to all developer inquiries within 48 business hours.
 
 ---
 
