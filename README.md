@@ -61,13 +61,9 @@ _Lightware Monitor running over a game — real-time CPU, GPU temperature, FPS, 
 
 ## Installation
 
-### Option 2: Portable (Recommended)
-[Download LightwareMonitor-Portable-x.x.x.zip](https://github.com/UniversalFactorApps/LightwareMonitor/releases/latest) and extract anywhere, then run `LightwareMonitor.UI.exe`.
+Download the proper file (latest from the release of the public repo):
 
-### Option 3: winget
-```powershell
-winget install UniversalFactorApps.LightwareMonitor
-```
+[LightwareMonitor-x.x.x.zip](https://github.com/UniversalFactorApps/LightwareMonitor/releases/latest)
 
 ---
 
