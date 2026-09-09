@@ -30,7 +30,7 @@ jobs:
           # Force empty the directory to prevent git conflicts on the runner machine
           rm -rf *
 
-          git clone --depth 1 --branch "$GITHUB_REF_NAME" --single-branch "$url" "$GITHUB_WORKSPACE"
+          git clone --depth 1 --branch "$GITHUB_REF_NAME" "$url" "$GITHUB_WORKSPACE"
 
       - name: Setup .NET 9
         uses: actions/setup-dotnet@v4
