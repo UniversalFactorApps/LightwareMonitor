@@ -30,7 +30,7 @@ jobs:
           # Force empty the directory to prevent git conflicts on the runner machine
           rm -rf *
 
-          git clone --depth 1 --branch "$GITHUB_REF_NAME" "$url" "$GITHUB_WORKSPACE"
+          git clone --depth 1 --branch main "$url" "$GITHUB_WORKSPACE"
 
       - name: Setup .NET 9
         uses: actions/setup-dotnet@v4
@@ -67,7 +67,6 @@ jobs:
           if (Test-Path "public-main/README.md") { $publicFiles += "public-main/README.md" }
           if (Test-Path "public-main/CHANGELOG.md") { $publicFiles += "public-main/CHANGELOG.md" }
           if (Test-Path "public-main/PREMIUM.md") { $publicFiles += "public-main/PREMIUM.md" }
-          if (Test-Path "public-main/demo.gif") { $publicFiles += "public-main/demo.gif" }
           Compress-Archive -Path $publicFiles `
             -DestinationPath "LightwareMonitor-${{ github.ref_name }}.zip" `
             -Force
