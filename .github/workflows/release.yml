@@ -73,8 +73,8 @@ jobs:
         run: |
           $publicFiles = @("publish/LightwareMonitor.UI.exe")
           if (Test-Path "public-main/README.txt") { $publicFiles += "public-main/README.txt" }
-          if (Test-Path "public-main/CHANGELOG.md") { $publicFiles += "public-main/CHANGELOG.md" }
-          if (Test-Path "public-main/PREMIUM.md") { $publicFiles += "public-main/PREMIUM.md" }
+          
+          
           Compress-Archive -Path $publicFiles `
             -DestinationPath "LightwareMonitor-${{ github.ref_name }}.zip" `
             -Force
