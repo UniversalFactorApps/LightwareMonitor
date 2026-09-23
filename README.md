@@ -39,6 +39,7 @@ Unlock premium features for **$4.99** — a one-time purchase for the current ma
 | Feature | Description |
 |---|---|
 | **4 additional color themes** | Dark, Cold, Neon, Pastel |
+| **1% & 0.1% low FPS metrics** | Lower percentile FPS readings alongside main FPS for performance analysis |
 
 ---
 
