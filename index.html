@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Lightware Monitor — A lightweight, always-on-top hardware monitoring overlay for Windows gamers. Real-time CPU, GPU temperature, and FPS directly on your screen.">
+  <meta name="theme-color" content="#00FFCC">
+  <title>Lightware Monitor — Hardware Monitoring Overlay for Gamers</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --bg-elevated: #11111a;
+      --fg: #e8e8ed;
+      --fg-muted: #888899;
+      --accent: #00FFCC;
+      --accent-dim: rgba(0, 255, 204, 0.15);
+      --accent-glow: rgba(0, 255, 204, 0.4);
+      --card-bg: #14141f;
+      --border: #2a2a3a;
+      --gpu: #FF3366;
+      --cpu: #00FFCC;
+      --ram: #CC99FF;
+      --fps: #FFFF33;
+      --white: #FFFFFF;
+    }
+
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg: #f8f8fc;
+        --bg-elevated: #ffffff;
+        --fg: #1a1a2e;
+        --fg-muted: #666677;
+        --accent: #00B894;
+        --accent-dim: rgba(0, 184, 148, 0.12);
+        --accent-glow: rgba(0, 184, 148, 0.3);
+        --card-bg: #ffffff;
+        --border: #e0e0eb;
+      }
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Space Grotesk', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Header */
+    header {
+      padding: 48px 0 32px;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 50%;
+      transform: translateX(-50%);
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, var(--accent-dim) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--accent);
+      text-decoration: none;
+      margin-bottom: 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .logo::before {
+      content: '';
+      width: 32px; height: 32px;
+      background: linear-gradient(135deg, var(--cpu), var(--gpu));
+      border-radius: 8px;
+      box-shadow: 0 0 24px var(--accent-glow);
+    }
+
+    h1 {
+      font-size: clamp(2.5rem, 5vw, 3.5rem);
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    h1 span { color: var(--accent); }
+
+    .tagline {
+      font-size: 1.25rem;
+      color: var(--fg-muted);
+      max-width: 600px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* CTA Buttons */
+    .cta-group {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 32px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 10px;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    }
+
+    .btn:active { transform: scale(0.97); }
+
+    .btn-primary {
+      background: var(--accent);
+      color: var(--bg);
+      box-shadow: 0 4px 24px var(--accent-glow);
+    }
+
+    .btn-primary:hover {
+      box-shadow: 0 8px 32px var(--accent-glow);
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      background: var(--card-bg);
+      color: var(--fg);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-dim);
+    }
+
+    /* Sections */
+    section {
+      padding: 64px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    section:last-of-type { border-bottom: none; }
+
+    h2 {
+      font-size: clamp(1.75rem, 3.5vw, 2.25rem);
+      font-weight: 700;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+
+    .section-lead {
+      text-align: center;
+      color: var(--fg-muted);
+      max-width: 600px;
+      margin: 0 auto 40px;
+      font-size: 1.1rem;
+    }
+
+    /* Features Grid */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .feature-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px 24px;
+      transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .feature-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .feature-icon {
+      width: 48px; height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 16px;
+      background: var(--accent-dim);
+      color: var(--accent);
+    }
+
+    .feature-card h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .feature-card p {
+      color: var(--fg-muted);
+      font-size: 0.95rem;
+      line-height: 1.55;
+    }
+
+    /* Premium Section */
+    .premium-section {
+      background: linear-gradient(180deg, var(--accent-dim) 0%, transparent 100%);
+      border-radius: 24px;
+      padding: 48px 32px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .premium-section::before {
+      content: '';
+      position: absolute;
+      top: -50%; left: -50%;
+      width: 200%; height: 200%;
+      background: radial-gradient(circle at center, var(--accent-dim) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .premium-badge {
+      display: inline-block;
+      padding: 6px 16px;
+      background: var(--accent);
+      color: var(--bg);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      font-weight: 700;
+      border-radius: 100px;
+      margin-bottom: 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .premium-section h2 { position: relative; z-index: 1; }
+
+    .premium-price {
+      font-size: clamp(2.5rem, 5vw, 3.5rem);
+      font-weight: 700;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--accent);
+      margin: 16px 0 8px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .premium-price span { font-size: 0.5em; color: var(--fg-muted); font-weight: 400; }
+
+    .premium-note {
+      color: var(--fg-muted);
+      margin-bottom: 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .premium-features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-top: 32px;
+      text-align: left;
+      position: relative;
+      z-index: 1;
+    }
+
+    .premium-feature {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 18px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+    }
+
+    .premium-feature svg { color: var(--accent); flex-shrink: 0; }
+
+    /* Screenshots */
+    .screenshots {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+    }
+
+    .screenshot {
+      aspect-ratio: 16/9;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: var(--card-bg);
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .screenshot:hover {
+      transform: scale(1.02);
+      border-color: var(--accent);
+    }
+
+    .screenshot img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .screenshot-main {
+      grid-column: 1 / -1;
+      aspect-ratio: 21/9;
+      max-height: 400px;
+    }
+
+    /* Demo GIF */
+    .demo-container {
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: var(--card-bg);
+      max-width: 100%;
+    }
+
+    .demo-container img { width: 100%; height: auto; display: block; }
+
+    /* Specs Table */
+    .specs-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 16px;
+    }
+
+    .specs-table th,
+    .specs-table td {
+      padding: 14px 18px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .specs-table th {
+      font-weight: 600;
+      color: var(--fg-muted);
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .specs-table td { color: var(--fg); }
+
+    .specs-table tr:last-child td { border-bottom: none; }
+
+    .specs-table tr:hover td { background: var(--accent-dim); }
+
+    /* Footer */
+    footer {
+      padding: 48px 0 32px;
+      text-align: center;
+      color: var(--fg-muted);
+      font-size: 0.9rem;
+    }
+
+    footer a { color: var(--accent); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    /* Utility */
+    .sr-only {
+      position: absolute; width: 1px; height: 1px;
+      padding: 0; margin: -1px; overflow: hidden;
+      clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+    }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <a href="#" class="logo" aria-label="Lightware Monitor Home">Lightware Monitor</a>
+      <h1>Hardware Monitoring <span>Overlay</span> for Gamers</h1>
+      <p class="tagline">Real-time CPU, GPU temperature, and FPS directly on your screen — even inside fullscreen games.</p>
+      <div class="cta-group">
+        <a href="https://github.com/UniversalFactorApps/LightwareMonitor/releases/latest" class="btn btn-primary" aria-label="Download latest release">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download for Windows
+        </a>
+        <a href="https://github.com/UniversalFactorApps/LightwareMonitor" class="btn btn-secondary" aria-label="View on GitHub">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+          View on GitHub
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <!-- Features -->
+      <section aria-labelledby="features-heading">
+        <h2 id="features-heading">Free Features</h2>
+        <p class="section-lead">Everything you need to monitor your system while gaming — no license required.</p>
+        <div class="features-grid">
+          <article class="feature-card">
+            <div class="feature-icon" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            </div>
+            <h3>Real-time Telemetry</h3>
+            <p>CPU usage (%) and GPU temperature (°C) updated every second via a native C++ engine.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+            </div>
+            <h3>In-Game FPS Overlay</h3>
+            <p>Uses Windows ETW (PresentMon) to display FPS when a known game is in the foreground.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/></svg>
+            </div>
+            <h3>Game Detection</h3>
+            <p>Automatically detects 100+ popular games and shows the game name above metrics.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M4 7h16"/></svg>
+            </div>
+            <h3>Always-on-Top</h3>
+            <p>Overlay stays above fullscreen games and applications — never hidden.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M19 12H5"/></svg>
+            </div>
+            <h3>Click-Through Mode</h3>
+            <p>Overlay ignores mouse input so it never steals focus from your game.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><rect x="7" y="7" width="10" height="10" rx="1"/></svg>
+            </div>
+            <h3>Mini Mode</h3>
+            <p>Compact 340×45 bar showing just FPS — toggle with double-click or tray menu.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            </div>
+            <h3>Auto-Hide When Idle</h3>
+            <p>Overlay fades out when you're not in a game — no clutter on the desktop.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M6 8h12M6 12h12M6 16h8"/></svg>
+            </div>
+            <h3>Customizable</h3>
+            <p>5 free themes, 4 font sizes, multi-monitor support, launch on startup.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <h3>Self-Contained</h3>
+            <p>.NET 9 single-file build — no runtime installation required.</p>
+          </article>
+        </div>
+      </section>
+
+      <!-- Premium -->
+      <section aria-labelledby="premium-heading" class="premium-section">
+        <div class="container">
+          <span class="premium-badge">Premium — One-time Purchase</span>
+          <h2 id="premium-heading">Unlock Premium Features</h2>
+          <div class="premium-price">$4.99<span>/lifetime</span></div>
+          <p class="premium-note">One-time purchase for the current major version. License key tied to your machine with 7-day offline grace period.</p>
+          <div class="premium-features">
+            <div class="premium-feature">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+              <span>5 additional themes: Dark, Cold, Neon, Pastel, Space, Amethyst</span>
+            </div>
+            <div class="premium-feature">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              <span>1% & 0.1% Low FPS metrics for performance analysis</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Demo / Screenshots -->
+      <section aria-labelledby="screenshots-heading">
+        <h2 id="screenshots-heading">See It In Action</h2>
+        <p class="section-lead">Lightware Monitor running over a game — real-time CPU, GPU temperature, FPS, and game name.</p>
+        <div class="demo-container">
+          <img src="demo.gif" alt="Lightware Monitor demo — overlay showing CPU, GPU temp, FPS, and game name in-game" width="1280" height="720" loading="lazy">
+        </div>
+        <h3 style="margin-top: 32px; text-align: center;">Built-in Themes</h3>
+        <div class="screenshots" style="margin-top: 16px;">
+          <div class="screenshot"><img src="theme-cyberpunk-neon.png" alt="Cyberpunk Neon theme" loading="lazy"></div>
+          <div class="screenshot"><img src="theme-stealth-white.png" alt="Stealth White theme" loading="lazy"></div>
+          <div class="screenshot"><img src="theme-crimson-fury.png" alt="Crimson Fury theme" loading="lazy"></div>
+          <div class="screenshot"><img src="theme-aurora-green.png" alt="Aurora Green theme" loading="lazy"></div>
+        </div>
+      </section>
+
+      <!-- System Requirements -->
+      <section aria-labelledby="requirements-heading">
+        <h2 id="requirements-heading">System Requirements</h2>
+        <table class="specs-table" role="table">
+          <thead>
+            <tr><th>Requirement</th><th>Details</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>OS</td><td>Windows 10 (1809+) or Windows 11</td></tr>
+            <tr><td>Architecture</td><td>x64</td></tr>
+            <tr><td>Dependencies</td><td>None (self-contained .NET 9)</td></tr>
+            <tr><td>Admin Rights</td><td>Not required</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- Installation -->
+      <section aria-labelledby="install-heading">
+        <h2 id="install-heading">Installation</h2>
+        <p class="section-lead">Download the latest release from GitHub.</p>
+        <div class="cta-group" style="margin-top: 24px;">
+          <a href="https://github.com/UniversalFactorApps/LightwareMonitor/releases/latest" class="btn btn-primary">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download Latest Release
+          </a>
+        </div>
+      </section>
+
+      <!-- Privacy / Support -->
+      <section aria-labelledby="privacy-heading">
+        <h2 id="privacy-heading">Privacy & Support</h2>
+        <div class="features-grid">
+          <article class="feature-card">
+            <div class="feature-icon" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <h3>No Data Collection</h3>
+            <p>Runs entirely locally. No telemetry, no analytics, no network requests — except license activation via Paddle when a premium key is entered.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+            </div>
+            <h3>Open Source Transparency</h3>
+            <p>Public releases and issue tracking on GitHub. Source code in a private repository for security.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            </div>
+            <h3>Support</h3>
+            <p>For issues or questions: <a href="https://github.com/UniversalFactorApps/LightwareMonitor/issues" target="_blank" rel="noopener">GitHub Issues</a> or email <a href="mailto:universalfactor.apps@outlook.com">universalfactor.apps@outlook.com</a>.</p>
+          </article>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-links">
+        <a href="https://github.com/UniversalFactorApps/LightwareMonitor/releases/latest">Download</a>
+        <a href="https://github.com/UniversalFactorApps/LightwareMonitor/issues">Support</a>
+        <a href="LICENSE">License</a>
+        <a href="PREMIUM.md">Premium Terms</a>
+      </div>
+      <p>&copy; 2025 Universal Factor Apps. Lightware Monitor is a proprietary application.</p>
+    </div>
+  </footer>
+</body>
+</html>
